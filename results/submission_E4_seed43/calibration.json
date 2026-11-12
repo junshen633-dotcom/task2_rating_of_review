@@ -1,0 +1,31 @@
+{
+  "anchor": 3.8412087969411015,
+  "s": 0.9789883359307087,
+  "anchor_source": "calibration_label_mean",
+  "n_calibration": 766812,
+  "denominator": 794881.4376561778,
+  "calibration_input_sha256": "980bff56008ed993dea9d6bc6deb39bda21e6b1f849af71e633874c88c51780a",
+  "metadata_sha256": "dc2ec7f1717d59c7acf9c506546abae594a3bc42e270df0119af84589c755c18",
+  "affine_transition": {
+    "slope": 0.746971277529885,
+    "intercept": 0.7606010038859632,
+    "row_expected_observed": [
+      1.5082135023153789,
+      2.254887578638531,
+      3.0011459066577175,
+      3.745627030964795,
+      4.497700163801673
+    ],
+    "max_absolute_deviation": 0.0028590830407084766,
+    "condition_number": 1.3464073107891963,
+    "allowed": true,
+    "criteria": {
+      "slope_greater_than": 0.2,
+      "max_absolute_deviation_at_most": 0.1,
+      "condition_number_at_most": 100.0
+    }
+  },
+  "transition_basis": "P(observed rating | exact title-star cue), fit split only; proxy assumption, not known clean labels",
+  "transition_unsupported_rows": [],
+  "label_noise_warning": "Transition was estimated from title proxies, not certified clean labels. Latent output assumes that mechanism generalizes; test labels may use another mechanism."
+}

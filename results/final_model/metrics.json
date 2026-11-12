@@ -1,0 +1,145 @@
+{
+  "smoke": false,
+  "seed": 43,
+  "hardware": {
+    "platform": "Linux-5.15.0-1103-nvidia-x86_64-with-glibc2.35",
+    "cpu_model": "AMD EPYC 7742 64-Core Processor",
+    "logical_cpus": 256,
+    "torch_threads": 4,
+    "servers": 1,
+    "training_processes": 1,
+    "device": "cuda",
+    "gpu": "NVIDIA A800-SXM4-80GB MIG 2g.20gb",
+    "torch_version": "2.5.1+cu121",
+    "numpy_version": "1.26.4",
+    "cuda_version": "12.1"
+  },
+  "metadata_sha256": "dc2ec7f1717d59c7acf9c506546abae594a3bc42e270df0119af84589c755c18",
+  "epochs": [
+    {
+      "epoch": 1,
+      "train_records": 6150112,
+      "train_loss": 1.0188353647329162,
+      "train_seconds": 364.9416685830802,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.1465856034179354,
+        "loss": 1.0040486211651818,
+        "inference_seconds": 26.228250747546554,
+        "includes_parquet_read_tokenization_and_csv_write": false
+      }
+    },
+    {
+      "epoch": 2,
+      "train_records": 6150112,
+      "train_loss": 1.0001361952088483,
+      "train_seconds": 364.56949242576957,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.1428701532529517,
+        "loss": 0.9994460277391763,
+        "inference_seconds": 26.37732038460672,
+        "includes_parquet_read_tokenization_and_csv_write": false
+      }
+    },
+    {
+      "epoch": 3,
+      "train_records": 6150112,
+      "train_loss": 0.9940057407847454,
+      "train_seconds": 365.3787396270782,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.1416605793020005,
+        "loss": 0.9982887576535671,
+        "inference_seconds": 26.660483421757817,
+        "includes_parquet_read_tokenization_and_csv_write": false
+      }
+    }
+  ],
+  "amp_enabled": true,
+  "row_limit": null,
+  "epoch_selection_split": "cal",
+  "evaluation_split_used_for_selection": false,
+  "args": {
+    "data_dir": "/scratch/26120397g/task2_codex_run/prepared",
+    "output_dir": "/scratch/26120397g/task2_codex_run/runs/E4_seed43",
+    "objective": "forward",
+    "backbone": "hashcnn",
+    "metadata": true,
+    "model_name": "distilbert-base-uncased",
+    "offline": false,
+    "device": "cuda",
+    "batch_size": 128,
+    "max_epochs": 3,
+    "patience": 2,
+    "learning_rate": null,
+    "weight_decay": 0.0001,
+    "max_tokens": 160,
+    "hash_buckets": 131072,
+    "embedding_dim": 64,
+    "cnn_channels": 64,
+    "hidden_dim": 128,
+    "dropout": 0.2,
+    "workers": 2,
+    "threads": 4,
+    "shuffle_buffer": 4096,
+    "seed": 43,
+    "amp": true,
+    "evaluate_final": false,
+    "predict_only": false,
+    "checkpoint": null,
+    "smoke": false,
+    "max_train_rows": null
+  },
+  "best_epoch": 3,
+  "best_cal_rmse": 1.1416605793020005,
+  "architecture": {
+    "objective": "forward",
+    "backbone": "hashcnn",
+    "model_name": "distilbert-base-uncased",
+    "offline": false,
+    "vocab_size": 131072,
+    "max_tokens": 160,
+    "embedding_dim": 64,
+    "cnn_channels": 64,
+    "hidden_dim": 128,
+    "dropout": 0.2,
+    "kernels": [
+      3,
+      5
+    ],
+    "dense_dim": 12,
+    "label_mean": 3.8418432054570713
+  },
+  "checkpoint": "/scratch/26120397g/task2_codex_run/runs/E4_seed43/best.pt",
+  "training_script_offline_seconds": 1177.3302209116518,
+  "preprocessing_seconds": 530.8848130479455,
+  "total_offline_seconds": 1708.2150339595973,
+  "offline_definition": "prepare preprocessing_seconds + training script through best checkpoint reload; excludes final prediction passes",
+  "predictions": {
+    "cal": {
+      "records": 766812,
+      "labelled_records": 766812,
+      "rmse_observed": 1.1416605793020005,
+      "loss": 0.9982887576535671,
+      "inference_seconds": 27.496842298656702,
+      "includes_parquet_read_tokenization_and_csv_write": true,
+      "total_split_inference_seconds": 27.500128388404846
+    },
+    "test": {
+      "records": 10000,
+      "labelled_records": 0,
+      "rmse_observed": null,
+      "loss": null,
+      "inference_seconds": 0.757870139554143,
+      "includes_parquet_read_tokenization_and_csv_write": true,
+      "total_split_inference_seconds": 0.7601793874055147
+    }
+  },
+  "peak_gpu_allocated_bytes": 254837760,
+  "peak_gpu_reserved_bytes": 283115520,
+  "total_script_seconds": 1205.5910993050784
+}

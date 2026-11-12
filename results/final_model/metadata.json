@@ -1,0 +1,238 @@
+{
+  "schema_version": 2,
+  "dense_columns": [
+    "user_smooth",
+    "user_log_count",
+    "prod_smooth",
+    "prod_log_count",
+    "parent_smooth",
+    "parent_log_count",
+    "purchased_int",
+    "votes_log",
+    "votes_negative",
+    "comment_empty",
+    "title_length_log",
+    "comment_length_log"
+  ],
+  "label_mean": 3.8418432054570713,
+  "transition": [
+    [
+      0.797319034852547,
+      0.05045088959298075,
+      0.050970834348850434,
+      0.049216020797790236,
+      0.052043220407831665
+    ],
+    [
+      0.05171100516263718,
+      0.7932124016136768,
+      0.05329082856095015,
+      0.052049538747989954,
+      0.04973622591474596
+    ],
+    [
+      0.052171493116375006,
+      0.04863555257256045,
+      0.7964542373991192,
+      0.05135298836086238,
+      0.05138572855108288
+    ],
+    [
+      0.05100228368434408,
+      0.05110050666688494,
+      0.04951256844914096,
+      0.7980371773988917,
+      0.05034746380073831
+    ],
+    [
+      0.05000449885468916,
+      0.050531352680937974,
+      0.05011940936000269,
+      0.05044896401675092,
+      0.7988957750876192
+    ]
+  ],
+  "transition_counts": [
+    [
+      24535,
+      1552,
+      1568,
+      1514,
+      1601
+    ],
+    [
+      916,
+      14058,
+      944,
+      922,
+      881
+    ],
+    [
+      1593,
+      1485,
+      24326,
+      1568,
+      1569
+    ],
+    [
+      3115,
+      3121,
+      3024,
+      48748,
+      3075
+    ],
+    [
+      23063,
+      23306,
+      23116,
+      23268,
+      368473
+    ]
+  ],
+  "transition_unsupported_rows": [],
+  "transition_basis": "P(observed rating | exact title-star cue), fit split only; proxy assumption, not known clean labels",
+  "transition_pseudocount": 0.5,
+  "counts": {
+    "cal": 766812,
+    "eval": 767721,
+    "test": 10000,
+    "train": 6150112
+  },
+  "input_rows": {
+    "train": 7684645,
+    "test": 10000
+  },
+  "split": {
+    "method": "sha256 JSON(user_id, prod_id, time, normalized-whitespace title, comment)",
+    "bucket": "first 8 hex digits mod 10000; <8000 train, <9000 cal, else eval",
+    "internal_fold": "next 8 hex digits mod 5",
+    "label_in_split_hash": false
+  },
+  "target_encoding": {
+    "method": "5-fold cross fit; sums and counts subtract internal fold; prior excludes same fold",
+    "alpha": 20.0,
+    "fit_fold_priors": {
+      "0": 3.8415091240816563,
+      "1": 3.8422189762386414,
+      "2": 3.841599740905008,
+      "3": 3.8414138344271977,
+      "4": 3.8424743368472227
+    }
+  },
+  "smoke_prefix_limit": 0,
+  "timing": {
+    "csv_parse_validate_split_seconds": 142.68965248391032,
+    "user_crossfit_seconds": 105.07711109891534,
+    "prod_crossfit_seconds": 98.66531147807837,
+    "parent_crossfit_seconds": 97.15279759280384,
+    "crossfit_and_feature_output_seconds": 331.98095111735165,
+    "retrieval_diagnostics_seconds": 51.9865587502718,
+    "total_prepare_seconds": 530.8848130479455
+  },
+  "runtime": {
+    "spark_version": "3.5.7",
+    "master": "local[8]",
+    "shuffle_partitions": 64,
+    "slurm_job_id": "22197"
+  },
+  "retrieval_diagnostics": {
+    "normalized_text": {
+      "index": {
+        "groups": 5762951,
+        "repeated_groups": 82276,
+        "conflicting_groups": 39174
+      },
+      "queries": {
+        "cal": {
+          "n_queries": 766812,
+          "n_matched": 51289,
+          "n_long_queries": 573737,
+          "n_long_matched": 1780,
+          "rmse_with_mean_fallback": 1.5095517083558543,
+          "smoothed_rmse_with_mean_fallback": 1.5085009196877095,
+          "matched_rmse": 1.2341543601165568,
+          "mean_matched_label_variance": 0.9522306990136858,
+          "n_conflicting_matches": 39048,
+          "coverage": 0.06688601638993652,
+          "long_text_coverage": 0.0031024668097054922
+        },
+        "eval": {
+          "n_queries": 767721,
+          "n_matched": 51671,
+          "n_long_queries": 573623,
+          "n_long_matched": 1724,
+          "rmse_with_mean_fallback": 1.509656814523868,
+          "smoothed_rmse_with_mean_fallback": 1.508507010467195,
+          "matched_rmse": 1.2278377392271116,
+          "mean_matched_label_variance": 0.9573712104754547,
+          "n_conflicting_matches": 39548,
+          "coverage": 0.06730439834262708,
+          "long_text_coverage": 0.003005458288806411
+        },
+        "test": {
+          "n_queries": 10000,
+          "n_matched": 808,
+          "n_long_queries": 7384,
+          "n_long_matched": 41,
+          "rmse_with_mean_fallback": null,
+          "smoothed_rmse_with_mean_fallback": null,
+          "matched_rmse": null,
+          "mean_matched_label_variance": 0.9347534666541482,
+          "n_conflicting_matches": 605,
+          "coverage": 0.0808,
+          "long_text_coverage": 0.005552546045503792
+        }
+      },
+      "interpretation": "Attainable baseline with train-only index; not an oracle or RMSE bound. Same text need not mean same review."
+    },
+    "user_product": {
+      "index": {
+        "groups": 6117756,
+        "repeated_groups": 29268,
+        "conflicting_groups": 10581
+      },
+      "queries": {
+        "cal": {
+          "n_queries": 766812,
+          "n_matched": 0,
+          "n_long_queries": 573737,
+          "n_long_matched": 0,
+          "rmse_with_mean_fallback": 1.515398641954271,
+          "smoothed_rmse_with_mean_fallback": 1.515398641954271,
+          "matched_rmse": null,
+          "mean_matched_label_variance": null,
+          "n_conflicting_matches": null,
+          "coverage": 0.0,
+          "long_text_coverage": 0.0
+        },
+        "eval": {
+          "n_queries": 767721,
+          "n_matched": 0,
+          "n_long_queries": 573623,
+          "n_long_matched": 0,
+          "rmse_with_mean_fallback": 1.5155610798506054,
+          "smoothed_rmse_with_mean_fallback": 1.5155610798506054,
+          "matched_rmse": null,
+          "mean_matched_label_variance": null,
+          "n_conflicting_matches": null,
+          "coverage": 0.0,
+          "long_text_coverage": 0.0
+        },
+        "test": {
+          "n_queries": 10000,
+          "n_matched": 0,
+          "n_long_queries": 7384,
+          "n_long_matched": 0,
+          "rmse_with_mean_fallback": null,
+          "smoothed_rmse_with_mean_fallback": null,
+          "matched_rmse": null,
+          "mean_matched_label_variance": null,
+          "n_conflicting_matches": null,
+          "coverage": 0.0,
+          "long_text_coverage": 0.0
+        }
+      },
+      "interpretation": "Attainable baseline with train-only index; not an oracle or RMSE bound. Same text need not mean same review."
+    }
+  }
+}

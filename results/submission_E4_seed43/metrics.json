@@ -1,0 +1,167 @@
+{
+  "calibration_fit_NOT_independent_evaluation": {
+    "latent_candidate_method": "model_p_latent",
+    "candidates": {
+      "observed_raw": {
+        "against_observed_rating": {
+          "n": 766812,
+          "rmse": 1.141660579302,
+          "mae": 0.8548612344586042,
+          "prediction_mean": 3.822952989047195,
+          "prediction_std": 1.0179745067335302
+        },
+        "inverse_transition_risk_hypothesis": {
+          "available": true,
+          "n": 766812,
+          "estimated_latent_mse": 0.491417156892316,
+          "standard_error": 0.004007473825269048,
+          "condition_number": 1.3464073107891963,
+          "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+        },
+        "against_title_proxy_NOT_ground_truth": {
+          "n": 75013,
+          "rmse": 0.46432914713810425,
+          "mae": 0.44446063636040983,
+          "prediction_mean": 4.119106647217023,
+          "prediction_std": 0.8056571938044736
+        }
+      },
+      "observed_calibrated": {
+        "against_observed_rating": {
+          "n": 766812,
+          "rmse": 1.141460129570473,
+          "mae": 0.861602709361405,
+          "prediction_mean": 3.823336573949976,
+          "prediction_std": 0.9965851683669424
+        },
+        "inverse_transition_risk_hypothesis": {
+          "available": true,
+          "n": 766812,
+          "estimated_latent_mse": 0.5051516931276633,
+          "standard_error": 0.003956393144010338,
+          "condition_number": 1.3464073107891963,
+          "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+        },
+        "against_title_proxy_NOT_ground_truth": {
+          "n": 75013,
+          "rmse": 0.4790790836315309,
+          "mae": 0.45925104029517705,
+          "prediction_mean": 4.113267550941446,
+          "prediction_std": 0.788728995493246
+        }
+      },
+      "latent_hypothesis": {
+        "against_observed_rating": {
+          "n": 766812,
+          "rmse": 1.2254689924373496,
+          "mae": 0.6649369896445398,
+          "prediction_mean": 4.097971006286349,
+          "prediction_std": 1.36193843413492
+        },
+        "inverse_transition_risk_hypothesis": {
+          "available": true,
+          "n": 766812,
+          "estimated_latent_mse": 0.3034651392520509,
+          "standard_error": 0.005406867120817327,
+          "condition_number": 1.3464073107891963,
+          "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+        },
+        "against_title_proxy_NOT_ground_truth": {
+          "n": 75013,
+          "rmse": 0.025220386878911108,
+          "mae": 0.0007486441293275808,
+          "prediction_mean": 4.494233518941782,
+          "prediction_std": 1.0774516948173314
+        }
+      }
+    },
+    "title_proxy_warning": "Title star is an imperfect input-derived proxy and can be used by the model; matching it is not independent clean-label accuracy. This subset is not representative."
+  },
+  "evaluation": {
+    "latent_candidate_method": "model_p_latent",
+    "candidates": {
+      "observed_raw": {
+        "against_observed_rating": {
+          "n": 767721,
+          "rmse": 1.1437940422929564,
+          "mae": 0.856041097373884,
+          "prediction_mean": 3.8260031607887726,
+          "prediction_std": 1.0161307661101544
+        },
+        "inverse_transition_risk_hypothesis": {
+          "available": true,
+          "n": 767721,
+          "estimated_latent_mse": 0.49752407800324333,
+          "standard_error": 0.004018341199108325,
+          "condition_number": 1.3464073107891963,
+          "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+        },
+        "against_title_proxy_NOT_ground_truth": {
+          "n": 75081,
+          "rmse": 0.465258128517205,
+          "mae": 0.44550758556969006,
+          "prediction_mean": 4.123581372821953,
+          "prediction_std": 0.8033296815504484
+        }
+      },
+      "observed_calibrated": {
+        "against_observed_rating": {
+          "n": 767721,
+          "rmse": 1.1435883596734302,
+          "mae": 0.8627707244666831,
+          "prediction_mean": 3.8263226565075654,
+          "prediction_std": 0.9947801678021759
+        },
+        "inverse_transition_risk_hypothesis": {
+          "available": true,
+          "n": 767721,
+          "estimated_latent_mse": 0.5112235027768154,
+          "standard_error": 0.003967370770696319,
+          "condition_number": 1.3464073107891963,
+          "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+        },
+        "against_title_proxy_NOT_ground_truth": {
+          "n": 75081,
+          "rmse": 0.48000694099776964,
+          "mae": 0.4603335871280581,
+          "prediction_mean": 4.117648255115164,
+          "prediction_std": 0.7864503881448196
+        }
+      },
+      "latent_hypothesis": {
+        "against_observed_rating": {
+          "n": 767721,
+          "rmse": 1.2279622663298877,
+          "mae": 0.6663356056558976,
+          "prediction_mean": 4.102050607541646,
+          "prediction_std": 1.3594714085092714
+        },
+        "inverse_transition_risk_hypothesis": {
+          "available": true,
+          "n": 767721,
+          "estimated_latent_mse": 0.31090560114279236,
+          "standard_error": 0.005419237220967067,
+          "condition_number": 1.3464073107891963,
+          "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+        },
+        "against_title_proxy_NOT_ground_truth": {
+          "n": 75081,
+          "rmse": 0.02932397363415956,
+          "mae": 0.0008316763716185665,
+          "prediction_mean": 4.500197633853425,
+          "prediction_std": 1.0743424147006753
+        }
+      }
+    },
+    "title_proxy_warning": "Title star is an imperfect input-derived proxy and can be used by the model; matching it is not independent clean-label accuracy. This subset is not representative."
+  },
+  "evaluation_policy": "Evaluation does not fit parameters or select a candidate.",
+  "inputs_sha256": {
+    "cal": "980bff56008ed993dea9d6bc6deb39bda21e6b1f849af71e633874c88c51780a",
+    "test": "23b9246094befef663e69f0805d8b55cb27e49012eec2b5e5685af4cdd13d5a5",
+    "sample": "b9d5447a554b44677580484024017acbaf840657962bb4cfc1d7b98a2c216254",
+    "metadata": "dc2ec7f1717d59c7acf9c506546abae594a3bc42e270df0119af84589c755c18",
+    "eval": "4ec8291f7910b61cdd5f6ec6643587ef6dfe4cce000fcdaf877a266f10643ffa"
+  },
+  "test_latent_candidate_method": "model_p_latent"
+}
