@@ -1,0 +1,303 @@
+{
+  "smoke": false,
+  "seed": 43,
+  "hardware": {
+    "platform": "Linux-5.15.0-1103-nvidia-x86_64-with-glibc2.35",
+    "cpu_model": "AMD EPYC 7742 64-Core Processor",
+    "logical_cpus": 256,
+    "torch_threads": 4,
+    "servers": 1,
+    "training_processes": 1,
+    "device": "cuda",
+    "gpu": "NVIDIA A800-SXM4-80GB MIG 2g.20gb",
+    "torch_version": "2.5.1+cu121",
+    "numpy_version": "1.26.4",
+    "cuda_version": "12.1"
+  },
+  "metadata_sha256": "dc2ec7f1717d59c7acf9c506546abae594a3bc42e270df0119af84589c755c18",
+  "epochs": [
+    {
+      "epoch": 1,
+      "train_records": 6150112,
+      "train_loss": 1.0188353647329162,
+      "train_seconds": 363.6532136797905,
+      "learning_rate": 0.001,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.1465856034179354,
+        "loss": 1.0040486211651818,
+        "inference_seconds": 28.141047343611717,
+        "includes_parquet_read_tokenization_and_csv_write": false,
+        "corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.3236287877697486,
+          "standard_error": 0.005332404829314691,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        },
+        "rmse_latent_against_observed": 1.222473133882057
+      }
+    },
+    {
+      "epoch": 2,
+      "train_records": 6150112,
+      "train_loss": 1.0001361952088483,
+      "train_seconds": 364.89491457492113,
+      "learning_rate": 0.001,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.1428701532529517,
+        "loss": 0.9994460277391763,
+        "inference_seconds": 27.730821968987584,
+        "includes_parquet_read_tokenization_and_csv_write": false,
+        "corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.308417491392468,
+          "standard_error": 0.005408656393520539,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        },
+        "rmse_latent_against_observed": 1.2271409035466683
+      }
+    },
+    {
+      "epoch": 3,
+      "train_records": 6150112,
+      "train_loss": 0.9940057407847454,
+      "train_seconds": 363.6160698030144,
+      "learning_rate": 0.001,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.1416605793020005,
+        "loss": 0.9982887576535671,
+        "inference_seconds": 27.585724540054798,
+        "includes_parquet_read_tokenization_and_csv_write": false,
+        "corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.3034651521313875,
+          "standard_error": 0.005406867014673435,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        },
+        "rmse_latent_against_observed": 1.2254689924373499
+      }
+    },
+    {
+      "epoch": 4,
+      "train_records": 6150112,
+      "train_loss": 0.985395407970206,
+      "train_seconds": 362.7352234348655,
+      "learning_rate": 0.0005,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.1408364692033532,
+        "loss": 0.9969650568050749,
+        "inference_seconds": 27.540099043399096,
+        "includes_parquet_read_tokenization_and_csv_write": false,
+        "corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.30010171912628214,
+          "standard_error": 0.005469960868501605,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        },
+        "rmse_latent_against_observed": 1.231615745750029
+      }
+    },
+    {
+      "epoch": 5,
+      "train_records": 6150112,
+      "train_loss": 0.9817763974125937,
+      "train_seconds": 363.20965653285384,
+      "learning_rate": 0.0005,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.141392772256923,
+        "loss": 0.9977551961270602,
+        "inference_seconds": 27.46086505241692,
+        "includes_parquet_read_tokenization_and_csv_write": false,
+        "corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.3023717248643866,
+          "standard_error": 0.005452706586507371,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        },
+        "rmse_latent_against_observed": 1.230198298698979
+      }
+    },
+    {
+      "epoch": 6,
+      "train_records": 6150112,
+      "train_loss": 0.9762649292303665,
+      "train_seconds": 361.9148687906563,
+      "learning_rate": 0.00025,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.1427047039071945,
+        "loss": 0.9994429556674737,
+        "inference_seconds": 27.85116277076304,
+        "includes_parquet_read_tokenization_and_csv_write": false,
+        "corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.3077408425848018,
+          "standard_error": 0.005508394797498724,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        },
+        "rmse_latent_against_observed": 1.2369722353453894
+      }
+    },
+    {
+      "epoch": 7,
+      "train_records": 6150112,
+      "train_loss": 0.9739729905154949,
+      "train_seconds": 363.3266533445567,
+      "learning_rate": 0.00025,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.1430088951615351,
+        "loss": 1.00029206150825,
+        "inference_seconds": 27.93347802758217,
+        "includes_parquet_read_tokenization_and_csv_write": false,
+        "corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.308979425858462,
+          "standard_error": 0.005442756036710498,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        },
+        "rmse_latent_against_observed": 1.230337398859818
+      }
+    },
+    {
+      "epoch": 8,
+      "train_records": 6150112,
+      "train_loss": 0.9704870461036971,
+      "train_seconds": 363.61992968060076,
+      "learning_rate": 0.000125,
+      "calibration": {
+        "records": 766812,
+        "labelled_records": 766812,
+        "rmse_observed": 1.1433561919471995,
+        "loss": 1.0012113629515824,
+        "inference_seconds": 27.872351502999663,
+        "includes_parquet_read_tokenization_and_csv_write": false,
+        "corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.3104032283912625,
+          "standard_error": 0.00547945613749477,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        },
+        "rmse_latent_against_observed": 1.2343531689485112
+      }
+    }
+  ],
+  "amp_enabled": true,
+  "row_limit": null,
+  "epoch_selection_split": "cal",
+  "evaluation_split_used_for_selection": false,
+  "args": {
+    "data_dir": "/scratch/26120397g/task2_codex_run/prepared",
+    "output_dir": "/scratch/26120397g/task2_codex_run/runs/E4_long8_seed43",
+    "objective": "forward",
+    "backbone": "hashcnn",
+    "metadata": true,
+    "model_name": "distilbert-base-uncased",
+    "offline": false,
+    "device": "cuda",
+    "batch_size": 128,
+    "max_epochs": 8,
+    "patience": 8,
+    "learning_rate": null,
+    "lr_decay_start": 4,
+    "lr_decay_every": 2,
+    "lr_decay_factor": 0.5,
+    "save_every_epoch": true,
+    "weight_decay": 0.0001,
+    "max_tokens": 160,
+    "hash_buckets": 131072,
+    "embedding_dim": 64,
+    "cnn_channels": 64,
+    "hidden_dim": 128,
+    "dropout": 0.2,
+    "workers": 2,
+    "threads": 4,
+    "shuffle_buffer": 4096,
+    "seed": 43,
+    "amp": true,
+    "evaluate_final": false,
+    "predict_only": false,
+    "checkpoint": null,
+    "smoke": false,
+    "max_train_rows": null
+  },
+  "best_epoch": 4,
+  "best_cal_rmse": 1.1408364692033532,
+  "best_latent_epoch": 4,
+  "best_cal_corrected_latent_mse": 0.30010171912628214,
+  "best_latent_checkpoint": "/scratch/26120397g/task2_codex_run/runs/E4_long8_seed43/best_latent.pt",
+  "latent_epoch_selection_split": "cal",
+  "architecture": {
+    "objective": "forward",
+    "backbone": "hashcnn",
+    "model_name": "distilbert-base-uncased",
+    "offline": false,
+    "vocab_size": 131072,
+    "max_tokens": 160,
+    "embedding_dim": 64,
+    "cnn_channels": 64,
+    "hidden_dim": 128,
+    "dropout": 0.2,
+    "kernels": [
+      3,
+      5
+    ],
+    "dense_dim": 12,
+    "label_mean": 3.8418432054570713
+  },
+  "checkpoint": "/scratch/26120397g/task2_codex_run/runs/E4_long8_seed43/best.pt",
+  "training_script_offline_seconds": 3136.3969738446176,
+  "preprocessing_seconds": 530.8848130479455,
+  "total_offline_seconds": 3667.281786892563,
+  "offline_definition": "prepare preprocessing_seconds + training script through best checkpoint reload; excludes final prediction passes",
+  "predictions": {
+    "cal": {
+      "records": 766812,
+      "labelled_records": 766812,
+      "rmse_observed": 1.1408364692033532,
+      "loss": 0.9969650568050749,
+      "inference_seconds": 29.700069896876812,
+      "includes_parquet_read_tokenization_and_csv_write": true,
+      "corrected_latent_risk": {
+        "n": 766812,
+        "estimated_latent_mse": 0.30010171912628214,
+        "standard_error": 0.005469960868501605,
+        "condition_number": 1.3464073055692636,
+        "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+      },
+      "rmse_latent_against_observed": 1.231615745750029,
+      "total_split_inference_seconds": 29.703354643657804
+    },
+    "test": {
+      "records": 10000,
+      "labelled_records": 0,
+      "rmse_observed": null,
+      "loss": null,
+      "inference_seconds": 0.7817769777029753,
+      "includes_parquet_read_tokenization_and_csv_write": true,
+      "total_split_inference_seconds": 0.7841713484376669
+    }
+  },
+  "peak_gpu_allocated_bytes": 255134208,
+  "peak_gpu_reserved_bytes": 283115520,
+  "total_script_seconds": 3166.8850997313857
+}

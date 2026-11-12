@@ -1,8 +1,35 @@
 # COMP5434 Task 2 — Review Rating Prediction
 
-Apache Spark 负责清洗、分组划分和 OOF 统计特征，自研 PyTorch HashTextCNN 预测 1–5 星评分。全量数据预处理、E1–E4 对照、seed 43 复验及独立评估已完成。当前最终模型为 **E4_seed43**，观察评分校准版独立评估 **RMSE 1.143588 / MAE 0.862771**。
+Apache Spark 负责清洗、分组划分和 OOF 统计特征，自研 PyTorch HashTextCNN 预测 1–5 星评分。全量数据预处理、E1–E4 对照、seed 43 复验及独立评估已完成。首轮最终模型为 **E4_seed43**，观察评分校准版独立评估 **RMSE 1.143588 / MAE 0.862771**。
 
-尚未提交 Kaggle，没有本版本的排行榜成绩。模型使用 80% 训练部分，未进行 100% 标签重训练。旧实验采用不同划分，不能直接比较 RMSE。
+用户提供的榜单截图（2026-11-13）显示：同一 E4_seed43 的 `latent_hypothesis.csv` 为 **0.54546**，`observed_calibrated.csv` 为 **0.70392**。这是用户提交的结果，自动实验脚本未执行 Kaggle 提交。模型使用 80% 训练部分，未进行 100% 标签重训练。旧实验采用不同划分，不能直接比较本地 RMSE。
+
+## 2026-11-13 后续实验已完成
+
+推荐新提交：[recommended.csv](results/extended_delivery_20261113/recommended.csv)，即 E3/E4 × seed42/43 四模型的潜在评分等权平均。完整对比见 [交付说明](results/extended_delivery_20261113/README_CN.md)。这批新文件尚无 Kaggle 成绩。
+
+| 候选 | cal 观察 RMSE | 条件修正潜在 MSE |
+|---|---:|---:|
+| 原 E4_seed43 | 1.141661 | 0.303465 |
+| E4 两 seed 集成 | 1.138927 | 0.292310 |
+| **E3/E4 四模型集成** | **1.138579** | **0.290892** |
+| 八轮实验的最佳单模型（第4轮） | 1.140836 | 0.300102 |
+| 最佳长训练模型 + 旧 E4 seed42 | 1.138811 | 0.291829 |
+
+重新训练8轮，前三轮的训练损失和cal RMSE完全复现旧实验；第4轮最佳，第5–8轮训练损失下降但校准误差回升。新增计算预算的收益小于固定集成；增加轮数不是当前主要突破口。
+
+选择冻结后，四模型集成在已有 eval 基准上的观察 RMSE=1.140729、条件修正潜在 MSE=0.298373；原 E4_seed43 为1.143794和0.310906。该 eval 以前已使用，不称新盲测；没有据此再选择候选。修正 MSE 依赖噪声矩阵假设，不是已测得的干净标签误差。
+
+HPC 作业22291（55m10s）和22293（3m26s）均 COMPLETED / exit0，错误日志为空。测试38通过、1跳过；每份交付CSV均验证10000个唯一ID、模板顺序和评分范围。逐轮checkpoint保留在HPC，本地交付包括预测、分析和训练记录。
+
+在完成首轮实验、已有四个模型和smoke_prepared后，从仓库根目录运行：
+
+```bash
+# 沿用上节/环境说明中的 TASK2_CODE、TASK2_RAW、TASK2_WORK、TASK2_ENV
+jid=$(sbatch --parsable hpc/extended.sh)
+sbatch --dependency=afterok:$jid hpc/finalize_extended.sh
+# 新输出目录不得包含旧结果；重跑时请归档或使用新的工作目录。
+```
 
 ## 实验结果
 
@@ -23,7 +50,7 @@ Apache Spark 负责清洗、分组划分和 OOF 统计特征，自研 PyTorch Ha
 | `observed_calibrated.csv` | raw 向训练均值轻微收缩，系数由 cal 拟合 | **1.143588** | 0.862771 |
 | `latent_hypothesis.csv` | 假设噪声转移前的潜在评分期望 | 1.227962 | **0.666336** |
 
-三份文件均为 10,000 行，按 sampleSubmission 的 id 对齐。按当前观察标签 RMSE，优先使用 `observed_calibrated.csv`；latent 是待验证的干净标签假设，不代表已证明更高的 Kaggle 分数。标题星级也是输入，标题代理准确率不能充当独立干净标签准确率。
+三份文件均为 10,000 行，按 sampleSubmission 的 id 对齐。本地观察标签 RMSE 偏好 `observed_calibrated.csv`，而用户实际榜单支持 `latent_hypothesis.csv`。这一排序反转支持目标标签机制存在差异，但不证明全部测试标签干净或 Private LB 一定同样改善。标题星级也是输入，标题代理准确率不能充当独立干净标签准确率。后续固定集成与八轮实验协议见 [后续实验](docs/EXTENDED_EXPERIMENTS_CN.md)。
 
 ## 仓库内容
 

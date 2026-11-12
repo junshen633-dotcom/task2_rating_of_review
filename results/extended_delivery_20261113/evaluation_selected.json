@@ -1,0 +1,212 @@
+{
+  "scope": "Previously used eval benchmark; not new blind data; no selection or fitting",
+  "selection_sha256": "c01e47c10576567e9af5e9266cbd24f67b46aa91590c59704037e44b3a031978",
+  "selected_name": "E34_four_model",
+  "selected_models": [
+    "E3",
+    "E4",
+    "E3_seed43",
+    "E4_seed43"
+  ],
+  "metadata_sha256": "dc2ec7f1717d59c7acf9c506546abae594a3bc42e270df0119af84589c755c18",
+  "members": {
+    "E3": {
+      "checkpoint_sha256": "effd90f882297326b95b3613790215654237e191d42f804570380610211e4f07",
+      "predictions_sha256": "bcd3a2ebef1f7370f4a2282625f7a4c24f4a65e2ca8d338afbfb826608263f8c"
+    },
+    "E4": {
+      "checkpoint_sha256": "63d851e1a61b7238ea355547eb6eff2bc8ef256cc7f296fcc4c1506a564185c6",
+      "predictions_sha256": "f24d7f3be90e825a2fccd13fcd06250999f8b79b77121ff7ed25fa5223bf2359"
+    },
+    "E3_seed43": {
+      "checkpoint_sha256": "b7f7d4f1a9f980b0ffe13ff757027a82431a5b90f3469f4f12e46fb9e21171dc",
+      "predictions_sha256": "377043095cf07c853200d5db8b5069fa14dcc8f8c02cbf404a167e16abd059df"
+    },
+    "E4_seed43": {
+      "predictions_sha256": "4ec8291f7910b61cdd5f6ec6643587ef6dfe4cce000fcdaf877a266f10643ffa",
+      "reused_baseline": true
+    }
+  },
+  "baseline": {
+    "observed_against_observed_rating": {
+      "n": 767721,
+      "rmse": 1.1437940422929567,
+      "mae": 0.856041097373884,
+      "prediction_mean": 3.8260031607887726,
+      "prediction_std": 1.0161307661101544
+    },
+    "latent_against_observed_rating_NOT_clean_risk": {
+      "n": 767721,
+      "rmse": 1.2279622663298875,
+      "mae": 0.6663356056558976,
+      "prediction_mean": 4.102050607541646,
+      "prediction_std": 1.359471408509271
+    },
+    "conditional_corrected_latent_risk": {
+      "available": true,
+      "n": 767721,
+      "estimated_latent_mse": 0.3109056011427923,
+      "standard_error": 0.005419237220967068,
+      "condition_number": 1.3464073107891963,
+      "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+    },
+    "paired_corrected_mse_vs_baseline": {
+      "n": 767721,
+      "mean_candidate_minus_baseline": 0.0,
+      "standard_error": 0.0,
+      "approx_95pct_interval": [
+        0.0,
+        0.0
+      ],
+      "negative_favors_candidate": true,
+      "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+    },
+    "paired_observed_mse_vs_baseline": {
+      "n": 767721,
+      "mean_candidate_minus_baseline": 0.0,
+      "standard_error": 0.0,
+      "approx_95pct_interval": [
+        0.0,
+        0.0
+      ],
+      "negative_favors_candidate": true,
+      "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+    },
+    "title_cue_subsets": {
+      "explicit_star_title": {
+        "n": 75081,
+        "observed_against_observed_rating": {
+          "n": 75081,
+          "rmse": 1.065509828202973,
+          "mae": 0.7395644140612522,
+          "prediction_mean": 4.123581372821953,
+          "prediction_std": 0.8033296815504484
+        },
+        "conditional_corrected_latent_risk": {
+          "available": true,
+          "n": 75081,
+          "estimated_latent_mse": -0.01755917037498752,
+          "standard_error": 0.01777999142662113,
+          "condition_number": 1.3464073107891963,
+          "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+        },
+        "latent_against_input_title_proxy_NOT_independent_ground_truth": {
+          "n": 75081,
+          "rmse": 0.02932397363415956,
+          "mae": 0.0008316763716185665,
+          "prediction_mean": 4.500197633853425,
+          "prediction_std": 1.0743424147006753
+        }
+      },
+      "no_explicit_star_title": {
+        "n": 692640,
+        "observed_against_observed_rating": {
+          "n": 692640,
+          "rmse": 1.1519603680849522,
+          "mae": 0.8686669720848388,
+          "prediction_mean": 3.7937461878480483,
+          "prediction_std": 1.0314321334883014
+        },
+        "conditional_corrected_latent_risk": {
+          "available": true,
+          "n": 692640,
+          "estimated_latent_mse": 0.3465106246908497,
+          "standard_error": 0.005687432901219506,
+          "condition_number": 1.3464073107891963,
+          "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+        }
+      }
+    }
+  },
+  "selected": {
+    "observed_against_observed_rating": {
+      "n": 767721,
+      "rmse": 1.1407288014042585,
+      "mae": 0.8518278997762249,
+      "prediction_mean": 3.841063015620167,
+      "prediction_std": 1.0095345225052827
+    },
+    "latent_against_observed_rating_NOT_clean_risk": {
+      "n": 767721,
+      "rmse": 1.226236658182014,
+      "mae": 0.6610885372717241,
+      "prediction_mean": 4.122127808103796,
+      "prediction_std": 1.3506174571556129
+    },
+    "conditional_corrected_latent_risk": {
+      "available": true,
+      "n": 767721,
+      "estimated_latent_mse": 0.29837256375955445,
+      "standard_error": 0.005423066286886409,
+      "condition_number": 1.3464073107891963,
+      "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+    },
+    "paired_corrected_mse_vs_baseline": {
+      "n": 767721,
+      "mean_candidate_minus_baseline": -0.012533037383237697,
+      "standard_error": 0.0005181135618755466,
+      "approx_95pct_interval": [
+        -0.01354853996451377,
+        -0.011517534801961625
+      ],
+      "negative_favors_candidate": true,
+      "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+    },
+    "paired_observed_mse_vs_baseline": {
+      "n": 767721,
+      "mean_candidate_minus_baseline": -0.007002612831664696,
+      "standard_error": 0.00028936254018763387,
+      "approx_95pct_interval": [
+        -0.007569763410432459,
+        -0.006435462252896934
+      ],
+      "negative_favors_candidate": true,
+      "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+    },
+    "title_cue_subsets": {
+      "explicit_star_title": {
+        "n": 75081,
+        "observed_against_observed_rating": {
+          "n": 75081,
+          "rmse": 1.0654950598404762,
+          "mae": 0.7396008376808073,
+          "prediction_mean": 4.123720705518712,
+          "prediction_std": 0.8030157468917972
+        },
+        "conditional_corrected_latent_risk": {
+          "available": true,
+          "n": 75081,
+          "estimated_latent_mse": -0.017615048506371564,
+          "standard_error": 0.017777341719591413,
+          "condition_number": 1.3464073107891963,
+          "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+        },
+        "latent_against_input_title_proxy_NOT_independent_ground_truth": {
+          "n": 75081,
+          "rmse": 0.02544611626357334,
+          "mae": 0.0008664124908845599,
+          "prediction_mean": 4.500383880200605,
+          "prediction_std": 1.0739214438353244
+        }
+      },
+      "no_explicit_star_title": {
+        "n": 692640,
+        "observed_against_observed_rating": {
+          "n": 692640,
+          "rmse": 1.1485880100877055,
+          "mae": 0.8639931227624602,
+          "prediction_mean": 3.8104234019460037,
+          "prediction_std": 1.0247618796750788
+        },
+        "conditional_corrected_latent_risk": {
+          "available": true,
+          "n": 692640,
+          "estimated_latent_mse": 0.3326250844290767,
+          "standard_error": 0.0056921348456409875,
+          "condition_number": 1.3464073107891963,
+          "interpretation": "Conditional noise-model estimate; may be negative; no square root. Not verified clean-label risk or leaderboard RMSE."
+        }
+      }
+    }
+  }
+}

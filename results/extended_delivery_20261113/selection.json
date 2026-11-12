@@ -1,0 +1,462 @@
+{
+  "chosen": {
+    "name": "E34_four_model",
+    "models": [
+      "E3",
+      "E4",
+      "E3_seed43",
+      "E4_seed43"
+    ],
+    "weights": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "is_baseline": false,
+    "submission_file": "e34_four_model_latent.csv",
+    "n_cal": 766812,
+    "observed_rmse": 1.1385793005751008,
+    "observed_mae": 0.8506371108398973,
+    "conditional_corrected_latent_mse": 0.29089230212383993,
+    "conditional_corrected_latent_mse_standard_error": 0.00541117126721589,
+    "paired_corrected_mse_vs_baseline": {
+      "n": 766812,
+      "mean_candidate_minus_baseline": -0.01257283712821102,
+      "standard_error": 0.0005100434778177968,
+      "approx_95pct_interval": [
+        -0.013572522344733901,
+        -0.011573151911688138
+      ],
+      "negative_favors_candidate": true,
+      "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+    },
+    "paired_observed_mse_vs_baseline": {
+      "n": 766812,
+      "mean_candidate_minus_baseline": -0.007026054634093695,
+      "standard_error": 0.0002848551005512017,
+      "approx_95pct_interval": [
+        -0.0075843706311740505,
+        -0.00646773863701334
+      ],
+      "negative_favors_candidate": true,
+      "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+    }
+  },
+  "recommended_file": "recommended.csv",
+  "selected_name": "E34_four_model",
+  "selected_models": [
+    "E3",
+    "E4",
+    "E3_seed43",
+    "E4_seed43"
+  ],
+  "selected_weights": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+  ],
+  "selected_corrected_latent_mse": 0.29089230212383993,
+  "selected_candidate_file": "e34_four_model_latent.csv",
+  "submission_files": {
+    "E4_seed43": "baseline_e4_seed43_latent.csv",
+    "E4_two_seed": "e4_two_seed_latent.csv",
+    "E34_four_model": "e34_four_model_latent.csv",
+    "E4_long8_single": "e4_long8_single_latent.csv",
+    "E4_long8_plus_seed42": "e4_long8_plus_seed42_latent.csv"
+  },
+  "selection_split": "cal",
+  "evaluation_read": false,
+  "leaderboard_used_for_selection": false,
+  "policy": "Lowest conditional corrected latent MSE among baseline and four prespecified candidates; equal ensemble weights; exact ties keep the earlier candidate (baseline first)",
+  "candidates": [
+    {
+      "name": "E4_seed43",
+      "models": [
+        "E4_seed43"
+      ],
+      "weights": [
+        1.0
+      ],
+      "is_baseline": true,
+      "submission_file": "baseline_e4_seed43_latent.csv",
+      "n_cal": 766812,
+      "observed_rmse": 1.1416605793020003,
+      "observed_mae": 0.8548612344586042,
+      "conditional_corrected_latent_mse": 0.3034651392520508,
+      "conditional_corrected_latent_mse_standard_error": 0.005406867120817328,
+      "paired_corrected_mse_vs_baseline": {
+        "n": 766812,
+        "mean_candidate_minus_baseline": 0.0,
+        "standard_error": 0.0,
+        "approx_95pct_interval": [
+          0.0,
+          0.0
+        ],
+        "negative_favors_candidate": true,
+        "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+      },
+      "paired_observed_mse_vs_baseline": {
+        "n": 766812,
+        "mean_candidate_minus_baseline": 0.0,
+        "standard_error": 0.0,
+        "approx_95pct_interval": [
+          0.0,
+          0.0
+        ],
+        "negative_favors_candidate": true,
+        "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+      }
+    },
+    {
+      "name": "E4_two_seed",
+      "models": [
+        "E4",
+        "E4_seed43"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "is_baseline": false,
+      "submission_file": "e4_two_seed_latent.csv",
+      "n_cal": 766812,
+      "observed_rmse": 1.1389273095698091,
+      "observed_mae": 0.8499858759668032,
+      "conditional_corrected_latent_mse": 0.292310166014437,
+      "conditional_corrected_latent_mse_standard_error": 0.005423305538980783,
+      "paired_corrected_mse_vs_baseline": {
+        "n": 766812,
+        "mean_candidate_minus_baseline": -0.011154973237613788,
+        "standard_error": 0.0004604313411263098,
+        "approx_95pct_interval": [
+          -0.012057418666221356,
+          -0.01025252780900622
+        ],
+        "negative_favors_candidate": true,
+        "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+      },
+      "paired_observed_mse_vs_baseline": {
+        "n": 766812,
+        "mean_candidate_minus_baseline": -0.00623346184825465,
+        "standard_error": 0.00025718957724853533,
+        "approx_95pct_interval": [
+          -0.006737553419661779,
+          -0.005729370276847521
+        ],
+        "negative_favors_candidate": true,
+        "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+      }
+    },
+    {
+      "name": "E34_four_model",
+      "models": [
+        "E3",
+        "E4",
+        "E3_seed43",
+        "E4_seed43"
+      ],
+      "weights": [
+        0.25,
+        0.25,
+        0.25,
+        0.25
+      ],
+      "is_baseline": false,
+      "submission_file": "e34_four_model_latent.csv",
+      "n_cal": 766812,
+      "observed_rmse": 1.1385793005751008,
+      "observed_mae": 0.8506371108398973,
+      "conditional_corrected_latent_mse": 0.29089230212383993,
+      "conditional_corrected_latent_mse_standard_error": 0.00541117126721589,
+      "paired_corrected_mse_vs_baseline": {
+        "n": 766812,
+        "mean_candidate_minus_baseline": -0.01257283712821102,
+        "standard_error": 0.0005100434778177968,
+        "approx_95pct_interval": [
+          -0.013572522344733901,
+          -0.011573151911688138
+        ],
+        "negative_favors_candidate": true,
+        "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+      },
+      "paired_observed_mse_vs_baseline": {
+        "n": 766812,
+        "mean_candidate_minus_baseline": -0.007026054634093695,
+        "standard_error": 0.0002848551005512017,
+        "approx_95pct_interval": [
+          -0.0075843706311740505,
+          -0.00646773863701334
+        ],
+        "negative_favors_candidate": true,
+        "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+      }
+    },
+    {
+      "name": "E4_long8_single",
+      "models": [
+        "E4_long8_seed43_latent"
+      ],
+      "weights": [
+        1.0
+      ],
+      "is_baseline": false,
+      "submission_file": "e4_long8_single_latent.csv",
+      "n_cal": 766812,
+      "observed_rmse": 1.1408364692033546,
+      "observed_mae": 0.8482156998540833,
+      "conditional_corrected_latent_mse": 0.3001017066523762,
+      "conditional_corrected_latent_mse_standard_error": 0.005469960977390644,
+      "paired_corrected_mse_vs_baseline": {
+        "n": 766812,
+        "mean_candidate_minus_baseline": -0.003363432599674407,
+        "standard_error": 0.0004937160247306057,
+        "approx_95pct_interval": [
+          -0.0043311160081463945,
+          -0.0023957491912024198
+        ],
+        "negative_favors_candidate": true,
+        "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+      },
+      "paired_observed_mse_vs_baseline": {
+        "n": 766812,
+        "mean_candidate_minus_baseline": -0.0018810288678017513,
+        "standard_error": 0.00027581534409026334,
+        "approx_95pct_interval": [
+          -0.0024216269422186673,
+          -0.0013404307933848354
+        ],
+        "negative_favors_candidate": true,
+        "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+      }
+    },
+    {
+      "name": "E4_long8_plus_seed42",
+      "models": [
+        "E4",
+        "E4_long8_seed43_latent"
+      ],
+      "weights": [
+        0.5,
+        0.5
+      ],
+      "is_baseline": false,
+      "submission_file": "e4_long8_plus_seed42_latent.csv",
+      "n_cal": 766812,
+      "observed_rmse": 1.1388107331608122,
+      "observed_mae": 0.8468037864265483,
+      "conditional_corrected_latent_mse": 0.29182949224170956,
+      "conditional_corrected_latent_mse_standard_error": 0.00545654367324279,
+      "paired_corrected_mse_vs_baseline": {
+        "n": 766812,
+        "mean_candidate_minus_baseline": -0.011635647010341121,
+        "standard_error": 0.000589242959899643,
+        "approx_95pct_interval": [
+          -0.012790563211744422,
+          -0.01048073080893782
+        ],
+        "negative_favors_candidate": true,
+        "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+      },
+      "paired_observed_mse_vs_baseline": {
+        "n": 766812,
+        "mean_candidate_minus_baseline": -0.006498992369912054,
+        "standard_error": 0.0003292066188395319,
+        "approx_95pct_interval": [
+          -0.007144237342837537,
+          -0.0058537473969865715
+        ],
+        "negative_favors_candidate": true,
+        "uncertainty": "Row-IID approximation conditional on fixed T; excludes group dependence, transition-estimation uncertainty and model-selection effects. Not a clean-label accuracy or leaderboard guarantee."
+      }
+    }
+  ],
+  "extended_training": {
+    "experiment": "E4_long8_seed43",
+    "method": "Rerun from initialization, then extend budget; not optimizer resume",
+    "seed": 43,
+    "completed_epochs": 8,
+    "best_observed_epoch": 4,
+    "best_observed_cal_rmse": 1.1408364692033532,
+    "best_latent_epoch": 4,
+    "best_conditional_corrected_latent_mse": 0.30010171912628214,
+    "epochs": [
+      {
+        "epoch": 1,
+        "learning_rate": 0.001,
+        "train_records": 6150112,
+        "train_loss": 1.0188353647329162,
+        "train_seconds": 363.6532136797905,
+        "observed_cal_rmse": 1.1465856034179354,
+        "conditional_corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.3236287877697486,
+          "standard_error": 0.005332404829314691,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        }
+      },
+      {
+        "epoch": 2,
+        "learning_rate": 0.001,
+        "train_records": 6150112,
+        "train_loss": 1.0001361952088483,
+        "train_seconds": 364.89491457492113,
+        "observed_cal_rmse": 1.1428701532529517,
+        "conditional_corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.308417491392468,
+          "standard_error": 0.005408656393520539,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        }
+      },
+      {
+        "epoch": 3,
+        "learning_rate": 0.001,
+        "train_records": 6150112,
+        "train_loss": 0.9940057407847454,
+        "train_seconds": 363.6160698030144,
+        "observed_cal_rmse": 1.1416605793020005,
+        "conditional_corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.3034651521313875,
+          "standard_error": 0.005406867014673435,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        }
+      },
+      {
+        "epoch": 4,
+        "learning_rate": 0.0005,
+        "train_records": 6150112,
+        "train_loss": 0.985395407970206,
+        "train_seconds": 362.7352234348655,
+        "observed_cal_rmse": 1.1408364692033532,
+        "conditional_corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.30010171912628214,
+          "standard_error": 0.005469960868501605,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        }
+      },
+      {
+        "epoch": 5,
+        "learning_rate": 0.0005,
+        "train_records": 6150112,
+        "train_loss": 0.9817763974125937,
+        "train_seconds": 363.20965653285384,
+        "observed_cal_rmse": 1.141392772256923,
+        "conditional_corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.3023717248643866,
+          "standard_error": 0.005452706586507371,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        }
+      },
+      {
+        "epoch": 6,
+        "learning_rate": 0.00025,
+        "train_records": 6150112,
+        "train_loss": 0.9762649292303665,
+        "train_seconds": 361.9148687906563,
+        "observed_cal_rmse": 1.1427047039071945,
+        "conditional_corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.3077408425848018,
+          "standard_error": 0.005508394797498724,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        }
+      },
+      {
+        "epoch": 7,
+        "learning_rate": 0.00025,
+        "train_records": 6150112,
+        "train_loss": 0.9739729905154949,
+        "train_seconds": 363.3266533445567,
+        "observed_cal_rmse": 1.1430088951615351,
+        "conditional_corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.308979425858462,
+          "standard_error": 0.005442756036710498,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        }
+      },
+      {
+        "epoch": 8,
+        "learning_rate": 0.000125,
+        "train_records": 6150112,
+        "train_loss": 0.9704870461036971,
+        "train_seconds": 363.61992968060076,
+        "observed_cal_rmse": 1.1433561919471995,
+        "conditional_corrected_latent_risk": {
+          "n": 766812,
+          "estimated_latent_mse": 0.3104032283912625,
+          "standard_error": 0.00547945613749477,
+          "condition_number": 1.3464073055692636,
+          "interpretation": "Conditional on correct class-conditional, feature-independent T. Row-IID SE ignores T estimation and selection. No square root; not measured clean-label risk or leaderboard RMSE."
+        }
+      }
+    ],
+    "first_three_epochs_vs_baseline": [
+      {
+        "epoch": 1,
+        "baseline_observed_rmse": 1.1465856034179354,
+        "rerun_observed_rmse": 1.1465856034179354,
+        "rmse_difference": 0.0,
+        "baseline_train_loss": 1.0188353647329162,
+        "rerun_train_loss": 1.0188353647329162,
+        "train_loss_difference": 0.0,
+        "training_record_count_equal": true,
+        "rerun_learning_rate": 0.001
+      },
+      {
+        "epoch": 2,
+        "baseline_observed_rmse": 1.1428701532529517,
+        "rerun_observed_rmse": 1.1428701532529517,
+        "rmse_difference": 0.0,
+        "baseline_train_loss": 1.0001361952088483,
+        "rerun_train_loss": 1.0001361952088483,
+        "train_loss_difference": 0.0,
+        "training_record_count_equal": true,
+        "rerun_learning_rate": 0.001
+      },
+      {
+        "epoch": 3,
+        "baseline_observed_rmse": 1.1416605793020005,
+        "rerun_observed_rmse": 1.1416605793020005,
+        "rmse_difference": 0.0,
+        "baseline_train_loss": 0.9940057407847454,
+        "rerun_train_loss": 0.9940057407847454,
+        "train_loss_difference": 0.0,
+        "training_record_count_equal": true,
+        "rerun_learning_rate": 0.001
+      }
+    ],
+    "architecture_equal_to_baseline": true,
+    "seed_equal_to_baseline": true,
+    "first_three_rmse_max_absolute_difference": 0.0,
+    "baseline_metrics_sha256": "60118fe4a8552d8e3fdbf0069efd9db8d2e5925b5002ab39bd136a12ef53f844",
+    "extended_metrics_sha256": "4910383dca8b06b280c7b05c979b016d18f13eba0589700089263092b6c13ab5"
+  },
+  "metadata_sha256": "dc2ec7f1717d59c7acf9c506546abae594a3bc42e270df0119af84589c755c18",
+  "sample_sha256": "b9d5447a554b44677580484024017acbaf840657962bb4cfc1d7b98a2c216254",
+  "source_artifacts_sha256": {
+    "ensemble_E4_two_seed/latent_hypothesis.csv": "706d1a90a4786ba119a7bc485eb02581af27330f043a69882c4b84c2feef2357",
+    "ensemble_E4_two_seed/analysis.json": "6ace1ef89af46ce69d08b9e8fa9175df4c3d318043b5de1959a928f04b73c468",
+    "ensemble_E34_four_model/latent_hypothesis.csv": "91dbbdb1ddd4a27f66d03cd517c6bf96636a7ab6643c3ba98ba0b8eb84f940a1",
+    "ensemble_E34_four_model/analysis.json": "2e19bde1614566e9e4b03baadbc3498b40e1f9f6f9b229365a36a1ed333494c7",
+    "submission_E4_long8_single/latent_hypothesis.csv": "e47e05612409ab64efcf10935e04fb830b97ea5b18ad8953f2b19150018fbcd1",
+    "submission_E4_long8_single/analysis.json": "4eb56fd7b88c883036ce9d6d20da705a3763edef31695faa239327f618c9fb6f",
+    "ensemble_E4_long8_plus_seed42/latent_hypothesis.csv": "e1cd1f3151d300978c503ac5c513d3ae981b48eb650f948bc206d407972dff38",
+    "ensemble_E4_long8_plus_seed42/analysis.json": "1ed75c8fcd53d5046cbeb20e949d6372bcc1485aeed9addc392b89ddd62997ff",
+    "submission_E4_seed43/latent_hypothesis.csv": "2c67c739e49766a8d0640c9cdbbb991466b296bb2d23aed504e83236215cbfbc"
+  },
+  "risk_warning": "Conditional on the estimated class-conditional feature-independent noise matrix. Not measured clean-label error; uncertainty intervals exclude T estimation and selection.",
+  "kaggle_submitted": false
+}

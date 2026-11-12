@@ -168,12 +168,63 @@ def synchronize(device: str) -> None:
         torch.cuda.synchronize()
 
 
+def epoch_learning_rate(base: float, epoch: int, decay_start: int = 0,
+                        decay_every: int = 2, decay_factor: float = .5) -> float:
+    """Fixed schedule, independent of validation outcomes; zero disables decay."""
+    if base <= 0 or epoch < 1 or decay_start < 0 or decay_every < 1 or not 0 < decay_factor <= 1:
+        raise ValueError("Invalid learning-rate schedule")
+    reductions = 0 if decay_start == 0 or epoch < decay_start else 1 + (epoch - decay_start) // decay_every
+    return base * decay_factor ** reductions
+
+
+class CorrectedLatentRisk:
+    """Streaming inverse-noise risk, conditional on fixed, correct T.
+
+    Solve T r = (stars - prediction)^2 once in polynomial coefficients.
+    This is exactly the backward corrected squared loss, not a clean-label
+    measurement. The SE is row-IID and excludes uncertainty in estimating T.
+    """
+    def __init__(self, transition: torch.Tensor):
+        matrix = transition.detach().double()
+        self.condition_number = float(torch.linalg.cond(matrix).item())
+        if not math.isfinite(self.condition_number) or self.condition_number > 100:
+            raise ValueError("Transition is too ill-conditioned for corrected latent risk")
+        stars = torch.arange(1, 6, dtype=torch.float64, device=matrix.device)
+        self.coefficients = torch.linalg.solve(matrix, torch.stack((stars.square(), -2 * stars,
+                                                                   torch.ones_like(stars)), dim=1))
+        self.n, self.total, self.squares, self.noisy_squared_error = 0, 0., 0., 0.
+
+    def update(self, latent: torch.Tensor, labels: torch.Tensor) -> None:
+        latent, labels = latent.detach().double(), labels.detach().double()
+        if not torch.isfinite(latent).all() or not torch.isfinite(labels).all():
+            raise ValueError("Non-finite corrected-risk inputs")
+        if ((labels < 1) | (labels > 5) | (labels != labels.round())).any():
+            raise ValueError("Corrected-risk labels must be integer 1..5")
+        coefficients = self.coefficients[labels.long() - 1]
+        corrected = coefficients[:, 0] + latent * (coefficients[:, 1] + latent * coefficients[:, 2])
+        self.n += len(labels)
+        self.total += corrected.sum().item()
+        self.squares += corrected.square().sum().item()
+        self.noisy_squared_error += (latent - labels).square().sum().item()
+
+    def report(self) -> dict[str, Any]:
+        mean = self.total / self.n if self.n else None
+        variance = max(0., (self.squares - self.total ** 2 / self.n) / (self.n - 1)) if self.n > 1 else None
+        return {"n": self.n, "estimated_latent_mse": mean,
+                "standard_error": math.sqrt(variance / self.n) if variance is not None else None,
+                "condition_number": self.condition_number,
+                "interpretation": "Conditional on correct class-conditional, feature-independent T. "
+                                  "Row-IID SE ignores T estimation and selection. No square root; "
+                                  "not measured clean-label risk or leaderboard RMSE."}
+
+
 def predict(model: ReviewModel, loader: DataLoader, device: str, amp: bool,
             destination: Path | None = None, *, require_labels: bool = True) -> dict[str, Any]:
     synchronize(device)
     started = time.perf_counter()
     model.eval()
     count, labelled, squared_error, loss_sum = 0, 0, 0., 0.
+    latent_risk = CorrectedLatentRisk(model.transition) if model.objective == "forward" else None
     handle = destination.open("w", newline="", encoding="utf-8") if destination else None
     writer = csv.writer(handle) if handle else None
     if writer:
@@ -193,6 +244,8 @@ def predict(model: ReviewModel, loader: DataLoader, device: str, amp: bool,
                     labels = batch["rating"][valid]
                     squared_error += ((observed[valid].double() - labels.double()) ** 2).sum().item()
                     loss_sum += model.loss(output[valid], labels).item() * n
+                    if latent_risk is not None:
+                        latent_risk.update(latent[valid], labels)
                     labelled += n
                 predictions, latent_predictions = observed.cpu().tolist(), latent.cpu().tolist()
                 labels = batch["rating"].cpu().tolist()
@@ -208,11 +261,15 @@ def predict(model: ReviewModel, loader: DataLoader, device: str, amp: bool,
     synchronize(device)
     if count != loader.dataset.row_count:
         raise RuntimeError(f"Prediction coverage mismatch: {count} != {loader.dataset.row_count}")
-    return {"records": count, "labelled_records": labelled,
+    result = {"records": count, "labelled_records": labelled,
             "rmse_observed": math.sqrt(squared_error / labelled) if labelled else None,
             "loss": loss_sum / labelled if labelled else None,
             "inference_seconds": time.perf_counter() - started,
             "includes_parquet_read_tokenization_and_csv_write": destination is not None}
+    if latent_risk is not None and labelled:
+        result["corrected_latent_risk"] = latent_risk.report()
+        result["rmse_latent_against_observed"] = math.sqrt(latent_risk.noisy_squared_error / labelled)
+    return result
 
 
 def hardware_info(device: str) -> dict[str, Any]:
@@ -288,6 +345,10 @@ def get_args():
     parser.add_argument("--max-epochs", type=int, default=5)
     parser.add_argument("--patience", type=int, default=3)
     parser.add_argument("--learning-rate", type=float, default=None, help="Default 1e-3 hashcnn; 2e-5 hf")
+    parser.add_argument("--lr-decay-start", type=int, default=0, help="First reduced-LR epoch; 0 disables decay")
+    parser.add_argument("--lr-decay-every", type=int, default=2)
+    parser.add_argument("--lr-decay-factor", type=float, default=.5)
+    parser.add_argument("--save-every-epoch", action="store_true")
     parser.add_argument("--weight-decay", type=float, default=1e-4)
     parser.add_argument("--max-tokens", type=int, default=160)
     parser.add_argument("--hash-buckets", type=int, default=131072)
@@ -318,6 +379,8 @@ def get_args():
         parser.error("workers >=0; max-tokens and hash-buckets >=8 required")
     if not 0 <= args.dropout < 1 or (args.learning_rate is not None and args.learning_rate <= 0):
         parser.error("dropout must be in [0,1); learning-rate must be positive")
+    if args.lr_decay_start < 0 or args.lr_decay_every < 1 or not 0 < args.lr_decay_factor <= 1:
+        parser.error("lr-decay-start >=0; lr-decay-every >=1; lr-decay-factor in (0,1]")
     if int(os.environ.get("WORLD_SIZE", "1")) > 1 or int(os.environ.get("SLURM_NTASKS", "1")) > 1:
         parser.error("This trainer uses one process. Request one SLURM task; do not use multi-rank torchrun.")
     return args
@@ -378,8 +441,13 @@ def main():
         except (AttributeError, TypeError):
             scaler = torch.cuda.amp.GradScaler(enabled=amp)
         best_rmse, bad_epochs = float("inf"), 0
+        best_latent_risk = float("inf")
         best_path = args.output_dir / "best.pt"
         for epoch in range(1, args.max_epochs + 1):
+            current_lr = epoch_learning_rate(learning_rate, epoch, args.lr_decay_start,
+                                             args.lr_decay_every, args.lr_decay_factor)
+            for group in optimizer.param_groups:
+                group["lr"] = current_lr
             synchronize(args.device)
             epoch_started = time.perf_counter()
             loader = make_loader(args.data_dir, "train", config, args, tokenizer, epoch=epoch, training=True)
@@ -408,7 +476,7 @@ def main():
             calibration = predict(model, make_loader(args.data_dir, "cal", config, args, tokenizer),
                                   args.device, amp)
             entry = {"epoch": epoch, "train_records": count, "train_loss": total_loss / count,
-                     "train_seconds": training_seconds, "calibration": calibration}
+                     "train_seconds": training_seconds, "learning_rate": current_lr, "calibration": calibration}
             metrics["epochs"].append(entry)
             print(json.dumps(entry, ensure_ascii=False), flush=True)
             if calibration["rmse_observed"] < best_rmse:
@@ -418,6 +486,21 @@ def main():
                 metrics["best_epoch"], metrics["best_cal_rmse"] = epoch, best_rmse
             else:
                 bad_epochs += 1
+            latent_score = calibration.get("corrected_latent_risk", {}).get("estimated_latent_mse")
+            checkpoint_extras = {"epoch": epoch, "cal_rmse": calibration["rmse_observed"],
+                                 "cal_corrected_latent_mse": latent_score, "smoke": args.smoke,
+                                 "metadata_sha256": metadata_digest, "seed": args.seed,
+                                 "learning_rate": current_lr}
+            if latent_score is not None and latent_score < best_latent_risk:
+                best_latent_risk = latent_score
+                latent_path = args.output_dir / "best_latent.pt"
+                save_checkpoint(latent_path, model, **checkpoint_extras)
+                metrics["best_latent_epoch"] = epoch
+                metrics["best_cal_corrected_latent_mse"] = latent_score
+                metrics["best_latent_checkpoint"] = str(latent_path.resolve())
+                metrics["latent_epoch_selection_split"] = "cal"
+            if args.save_every_epoch:
+                save_checkpoint(args.output_dir / f"epoch_{epoch:02d}.pt", model, **checkpoint_extras)
             write_json(args.output_dir / "training_progress.json", metrics)
             if bad_epochs >= args.patience:
                 break
