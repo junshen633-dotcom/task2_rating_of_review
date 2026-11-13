@@ -10,8 +10,11 @@ p = argparse.ArgumentParser()
 p.add_argument('--work', type=Path, required=True)
 p.add_argument('--job', required=True)
 p.add_argument('--interval', type=int, default=30)
+p.add_argument('--runs', nargs='+', default=['E4_long8_seed43'])
+p.add_argument('--log-prefix', default='extended')
 a = p.parse_args()
-last_state = last_epoch = last_error = None
+last_state = last_error = None
+last_epochs = {}
 terminal = {'COMPLETED', 'FAILED', 'CANCELLED', 'TIMEOUT', 'OUT_OF_MEMORY', 'NODE_FAIL', 'BOOT_FAIL', 'DEADLINE', 'PREEMPTED'}
 while True:
     query = subprocess.run(['sacct', '-n', '-P', '-j', a.job, '--format=JobIDRaw,State,ExitCode,Elapsed'], capture_output=True, text=True)
@@ -24,15 +27,16 @@ while True:
             last_state = state
     else:
         state = None
-    progress = a.work/'runs/E4_long8_seed43/training_progress.json'
-    if progress.exists():
-        report = json.loads(progress.read_text())
-        if report['epochs']:
-            epoch = report['epochs'][-1]
-            if epoch['epoch'] != last_epoch:
-                print(json.dumps({'progress': epoch, 'best_observed_epoch': report.get('best_epoch'), 'best_latent_epoch': report.get('best_latent_epoch')}), flush=True)
-                last_epoch = epoch['epoch']
-    error = a.work/'logs'/('extended-'+a.job+'.err')
+    for name in a.runs:
+        progress = a.work/'runs'/name/'training_progress.json'
+        if progress.exists():
+            report = json.loads(progress.read_text())
+            if report['epochs']:
+                epoch = report['epochs'][-1]
+                if epoch['epoch'] != last_epochs.get(name):
+                    print(json.dumps({'run': name, 'progress': epoch, 'best_observed_epoch': report.get('best_epoch'), 'best_latent_epoch': report.get('best_latent_epoch')}), flush=True)
+                    last_epochs[name] = epoch['epoch']
+    error = a.work/'logs'/(a.log_prefix+'-'+a.job+'.err')
     if error.exists():
         value = error.read_text(errors='replace')
         if value and value != last_error:

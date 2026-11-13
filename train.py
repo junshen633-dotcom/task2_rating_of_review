@@ -338,6 +338,8 @@ def get_args():
     parser.add_argument("--objective", choices=["mse", "ce", "forward"], default="forward")
     parser.add_argument("--backbone", choices=["hashcnn", "hf"], default="hashcnn")
     parser.add_argument("--metadata", action="store_true", help="Include prepared dense metadata features")
+    parser.add_argument("--text-layout", choices=["joint", "separate"], default="joint")
+    parser.add_argument("--pooling", choices=["mean", "mean_max"], default="mean")
     parser.add_argument("--model-name", default="distilbert-base-uncased")
     parser.add_argument("--offline", action="store_true", help="HF cache only; never download weights/tokenizer")
     parser.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
@@ -381,6 +383,8 @@ def get_args():
         parser.error("dropout must be in [0,1); learning-rate must be positive")
     if args.lr_decay_start < 0 or args.lr_decay_every < 1 or not 0 < args.lr_decay_factor <= 1:
         parser.error("lr-decay-start >=0; lr-decay-every >=1; lr-decay-factor in (0,1]")
+    if args.backbone != "hashcnn" and (args.text_layout != "joint" or args.pooling != "mean"):
+        parser.error("text-layout and pooling ablations require hashcnn")
     if int(os.environ.get("WORLD_SIZE", "1")) > 1 or int(os.environ.get("SLURM_NTASKS", "1")) > 1:
         parser.error("This trainer uses one process. Request one SLURM task; do not use multi-rank torchrun.")
     return args
@@ -429,6 +433,7 @@ def main():
                   "vocab_size": args.hash_buckets, "max_tokens": args.max_tokens,
                   "embedding_dim": args.embedding_dim, "cnn_channels": args.cnn_channels,
                   "hidden_dim": args.hidden_dim, "dropout": args.dropout, "kernels": [3, 5],
+                  "text_layout": args.text_layout, "pooling": args.pooling,
                   "dense_dim": len(metadata["dense_columns"]) if args.metadata else 0,
                   "label_mean": float(metadata["label_mean"])}
         tokenizer = build_tokenizer(config, args.output_dir)
@@ -506,6 +511,8 @@ def main():
                 break
         model, checkpoint = load_checkpoint(best_path, args.device)
     metrics["architecture"] = model.config
+    metrics["parameter_count"] = sum(p.numel() for p in model.parameters())
+    metrics["trainable_parameter_count"] = sum(p.numel() for p in model.parameters() if p.requires_grad)
     metrics["checkpoint"] = str(best_path.resolve())
     metrics["best_epoch"] = checkpoint.get("epoch")
     metrics["best_cal_rmse"] = checkpoint.get("cal_rmse")

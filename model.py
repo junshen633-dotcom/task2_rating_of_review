@@ -56,6 +56,13 @@ def observed_probabilities(logits: torch.Tensor, transition: torch.Tensor) -> to
 
 
 class HashTextCNN(nn.Module):
+    """Shared CNN with independent field encoding and masked pooling ablations.
+
+    The default joint/mean path is the original implementation. Separate mode
+    uses the very same retained token sequence and CNN weights, but zeroes the
+    other field BEFORE convolution and pools each field independently. Thus a
+    title/body boundary cannot create a cross-field n-gram.
+    """
     def __init__(self, config: dict[str, Any]):
         super().__init__()
         dim = int(config.get("embedding_dim", 64))
@@ -63,19 +70,57 @@ class HashTextCNN(nn.Module):
         kernels = config.get("kernels", [3, 5])
         if not kernels or any(k < 1 or k % 2 == 0 for k in kernels):
             raise ValueError("CNN kernels must be positive odd integers")
+        self.text_layout = config.get("text_layout", "joint")
+        self.pooling = config.get("pooling", "mean")
+        if self.text_layout not in ("joint", "separate"):
+            raise ValueError("text_layout must be joint or separate")
+        if self.pooling not in ("mean", "mean_max"):
+            raise ValueError("pooling must be mean or mean_max")
         self.embedding = nn.Embedding(config["vocab_size"], dim, padding_idx=0)
         self.convolutions = nn.ModuleList(nn.Conv1d(dim, channels, k, padding=k // 2)
                                           for k in kernels)
-        self.output_dim = channels * len(kernels)
+        self.output_dim = (channels * len(kernels)
+                           * (2 if self.pooling == "mean_max" else 1)
+                           * (2 if self.text_layout == "separate" else 1))
+
+    def _pool(self, embedded: torch.Tensor, mask: torch.Tensor) -> torch.Tensor:
+        denominator = mask.sum(-1).clamp_min(1)
+        pooled = []
+        for conv in self.convolutions:
+            activations = F.relu(conv(embedded)) * mask
+            pooled.append(activations.sum(-1) / denominator)
+            if self.pooling == "mean_max":
+                # ReLU outputs are nonnegative, so zero is a safe masked value
+                # for max pooling. Empty streams return zero without sentinels.
+                pooled.append(activations.amax(-1))
+        return torch.cat(pooled, dim=1)
 
     def forward(self, input_ids: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
         mask = attention_mask.to(self.embedding.weight.dtype).unsqueeze(1)
         embedded = self.embedding(input_ids).transpose(1, 2) * mask
-        denominator = mask.sum(-1).clamp_min(1)
-        # Mean only over real tokens. Padding and empty reviews cannot produce
-        # sentinel values or NaNs, and conv biases do not leak through padding.
-        return torch.cat([(F.relu(conv(embedded)) * mask).sum(-1) / denominator
-                          for conv in self.convolutions], dim=1)
+        if self.text_layout == "joint" and self.pooling == "mean":
+            denominator = mask.sum(-1).clamp_min(1)
+            # Keep legacy operations and parameter names unchanged, allowing
+            # existing checkpoints and exact default predictions to reproduce.
+            return torch.cat([(F.relu(conv(embedded)) * mask).sum(-1) / denominator
+                              for conv in self.convolutions], dim=1)
+        if self.text_layout == "joint":
+            return self._pool(embedded, mask)
+
+        active = attention_mask.bool()
+        nonempty = active.any(-1)
+        separator = (input_ids == 2) & active
+        title_marker = (input_ids == 1) & active
+        malformed = nonempty & ((separator.sum(-1) != 1) | (title_marker.sum(-1) != 1)
+                                | (input_ids[:, 0] != 1) | ~active[:, 0])
+        if malformed.any():
+            raise ValueError("Separate layout requires one leading TITLE=1 and one COMMENT=2 per nonempty row")
+        body_active = active & (separator.cumsum(-1) > 0)
+        title_active = active & ~body_active
+        title_mask = title_active.to(mask.dtype).unsqueeze(1)
+        body_mask = body_active.to(mask.dtype).unsqueeze(1)
+        return torch.cat((self._pool(embedded * title_mask, title_mask),
+                          self._pool(embedded * body_mask, body_mask)), dim=1)
 
 
 class ReviewModel(nn.Module):
